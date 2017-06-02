@@ -63,10 +63,13 @@ boost::python::list convex_hull(boost::python::list ip)
 
 // main()
 // {
-//     Point p1 = std::make_pair(1, 1);
-//     Point p2 = std::make_pair(0, 0);
-//     Point p3 = std::make_pair(2, 2);
-//     std::cout << calAngleWithXAxis(p2, p3) << std::endl;
+//     // Point p1 = std::make_pair(1, 1);
+//     // Point p2 = std::make_pair(0, 0);
+//     // Point p3 = std::make_pair(2, 2);
+//     // std::cout << calAngleWithXAxis(p2, p3) << std::endl;
+//     std::cout << inRange(0, 0, 1, 0, 0.5, 1) << std::endl;
+//     std::cout << inRange(0, 0, 2, 0, -1, 1) << std::endl;
+//     std::cout << inRange(0, 0, -1, 0, 0.5, 1) << std::endl;
 // }
 
 BOOST_PYTHON_MODULE(libcavehull)

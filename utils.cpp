@@ -1,11 +1,53 @@
 #include <cmath>
 #include <iostream>
+#include <list>
 #include <map>
 
 #include "include/common.h"
 #include "include/constants.h"
 #include "include/utils.h"
 
+Line getLine(const Point& p1, const Point& p2)
+{
+    double slope = calSlope(p1, p2);
+    return std::make_pair(slope, p1.second - p1.first * slope);
+}
+
+bool getSign(Line line, Point p)
+{
+    double val = p.second - line.first * p.first - line.second;
+    if (val < 0)
+        return false;
+    return true;
+}
+
+bool checkSigns(Point p1, Point p2, Point q1, Point q2)
+{
+    /*
+    Will return true if lines intersect
+    */
+    Line line1 = getLine(p1, p2);
+    Line line2 = getLine(q1, q2);
+    bool s1 = getSign(line1, q1);
+    bool s2 = getSign(line1, q2);
+    bool s3 = getSign(line2, p1);
+    bool s4 = getSign(line2, p2);
+    if (s1 != s2 && s3 != s4)
+        return true;
+    return false;
+}
+
+bool checkIntersections(std::list<Edge> edges, Edge e1, std::map<Point, std::pair<Point, Point>> neighbours)
+{
+    for (std::list<Edge>::iterator itr = edges.begin(); itr != edges.end(); itr++)
+    {
+        if (*itr == e1 || ((*itr).first == e1.first || (*itr).first == e1.second || (*itr).second == e1.first || (*itr).second == e1.second))
+            continue;
+        if (checkSigns((*itr).first, (*itr).second, e1.first, e1.second))
+            return true;
+    }
+    return false;
+}
 bool pointComparator(const Point & a, const Point & b)
 {
     if (a.second > b.second)
@@ -64,7 +106,7 @@ double calDecisionLength(Point &p, Edge &e)
 bool inRange(double x1, double y1, double x2, double y2,
              double x0, double y0)
 {
-    double dx =     x2 - x1;
+    double dx = x2 - x1;
     double dy = y2 - y1;
     double innerProduct = (x0 - x1) * dx + (y0 - y1) * dy;
     return 0 <= innerProduct && innerProduct <= dx * dx + dy * dy;
@@ -92,16 +134,8 @@ Point closestPoint(Edge &e, PointVector& ip,
         if (neighbours.find(ip[i]) == neighbours.end())
         {
             double dis = linePointDistance(ip[i], e);
-            double neighbourDis1 = linePointDistance(
-                                       ip[i],
-                                       std::make_pair
-                                       (
-                                           e.first,
-                                           neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first
-                                       )
-                                   );
+            double neighbourDis1 = linePointDistance(ip[i], std::make_pair(e.first, neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first));
             double neighbourDis2 = linePointDistance(ip[i], std::make_pair(e.second, neighbours[e.second].first == e.first ? neighbours[e.second].second : neighbours[e.second].first));
-
             if (dis < closestDis && dis < neighbourDis1 && dis < neighbourDis2)
             {
                 closest = ip[i];

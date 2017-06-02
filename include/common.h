@@ -5,6 +5,7 @@
 
 typedef std::pair<double, double> Point;
 typedef std::pair<double, double> DirVector;
+typedef std::pair<double, double> Line;
 typedef std::vector<Point> PointVector;
 typedef std::pair<Point, Point> Edge; 
 

@@ -28,7 +28,7 @@ PointVector getConvexHull(PointVector& mainip)
             ip.begin(), ip.end(), pointComparator);
     Point lowerMostPoint = *lowerMostItr;
     ip.erase(lowerMostItr);
-    std::cout<<M_PIl<<std::endl;
+    std::cout << M_PIl << std::endl;
     sort(ip.begin(), ip.end(), AngleSort(lowerMostPoint));
     PointVector hullStack;
     hullStack.push_back(lowerMostPoint);
@@ -73,6 +73,13 @@ std::vector<Edge> getConcaveHull(PointVector& ip, double N = INF)
         {
             edges.push_back(std::make_pair(currentEdge.first, closest));
             edges.push_back(std::make_pair(currentEdge.second, closest));
+            if (checkIntersections(edges, std::make_pair(currentEdge.first, closest), neighbours) || checkIntersections(edges, std::make_pair(currentEdge.second, closest), neighbours))
+            {
+                edges.pop_back();
+                edges.pop_back();
+                itr++;
+                continue;
+            }
             neighbours[closest] = std::make_pair(currentEdge.first, currentEdge.second);
             neighbours[currentEdge.first] = std::make_pair(
                                                 neighbours[currentEdge.first].first == currentEdge.second ? closest : neighbours[currentEdge.first].first,
