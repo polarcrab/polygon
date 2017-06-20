@@ -134,16 +134,18 @@ Point closestPoint(Edge &e, PointVector& ip,
         if (neighbours.find(ip[i]) == neighbours.end())
         {
             double dis = linePointDistance(ip[i], e);
-            double neighbourDis1 = linePointDistance(ip[i], std::make_pair(e.first, neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first));
-            double neighbourDis2 = linePointDistance(ip[i], std::make_pair(e.second, neighbours[e.second].first == e.first ? neighbours[e.second].second : neighbours[e.second].first));
-            if (dis < closestDis && dis < neighbourDis1 && dis < neighbourDis2)
+            if (dis < closestDis)
             {
                 closest = ip[i];
                 closestDis = dis;
             }
         }
     }
-    return closest;
+    double neighbourDis1 = linePointDistance(closest, std::make_pair(e.first, neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first));
+    double neighbourDis2 = linePointDistance(closest, std::make_pair(e.second, neighbours[e.second].first == e.first ? neighbours[e.second].second : neighbours[e.second].first));
+    if (closestDis < neighbourDis1 && closestDis < neighbourDis2)
+        return closest;
+    return std::make_pair(INF, INF);
 }
 
 // double calAngle(const Point& p1, const Point& p2, const Point& p3)

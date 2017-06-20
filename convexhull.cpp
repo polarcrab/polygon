@@ -28,7 +28,7 @@ PointVector getConvexHull(PointVector& mainip)
             ip.begin(), ip.end(), pointComparator);
     Point lowerMostPoint = *lowerMostItr;
     ip.erase(lowerMostItr);
-    std::cout << M_PIl << std::endl;
+    // std::cout << M_PIl << std::endl;
     sort(ip.begin(), ip.end(), AngleSort(lowerMostPoint));
     PointVector hullStack;
     hullStack.push_back(lowerMostPoint);
