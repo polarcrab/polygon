@@ -3,9 +3,9 @@
 #include <list>
 #include <map>
 
-#include "include/common.h"
-#include "include/constants.h"
-#include "include/utils.h"
+#include "common.h"
+#include "constants.h"
+#include "utils.h"
 
 Line get_line(const Point& p1, const Point& p2)
 {
@@ -39,9 +39,17 @@ bool check_signs(Point p1, Point p2, Point q1, Point q2)
 
 bool check_intersections(std::list<Edge> edges, Edge e1)
 {
-    for (std::list<Edge>::iterator itr = edges.begin(); itr != edges.end(); itr++)
+    for (std::list<Edge>::iterator itr = edges.begin();
+            itr != edges.end(); itr++)
     {
-        if (*itr == e1 || ((*itr).first == e1.first || (*itr).first == e1.second || (*itr).second == e1.first || (*itr).second == e1.second))
+        if (*itr == e1 ||
+                (
+                    (*itr).first == e1.first ||
+                    (*itr).first == e1.second ||
+                    (*itr).second == e1.first ||
+                    (*itr).second == e1.second
+                )
+           )
             continue;
         if (check_signs((*itr).first, (*itr).second, e1.first, e1.second))
             return true;
@@ -104,7 +112,7 @@ double cal_decision_length(Point &p, Edge &e)
 }
 
 bool in_range(double x1, double y1, double x2, double y2,
-             double x0, double y0)
+              double x0, double y0)
 {
     double dx = x2 - x1;
     double dy = y2 - y1;
@@ -125,7 +133,7 @@ double line_point_distance(Point &p, Edge e)
 }
 
 Point closest_point(Edge &e, PointVector& ip,
-                   std::map<Point, std::pair<Point, Point>> &neighbours)
+                    std::map<Point, std::pair<Point, Point>> &neighbours)
 {
     Point closest = std::make_pair(INF, INF);
     double closestDis = INF;
@@ -141,14 +149,24 @@ Point closest_point(Edge &e, PointVector& ip,
             }
         }
     }
-    double neighbourDis1 = line_point_distance(closest, std::make_pair(e.first, neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first));
-    double neighbourDis2 = line_point_distance(closest, std::make_pair(e.second, neighbours[e.second].first == e.first ? neighbours[e.second].second : neighbours[e.second].first));
+    double neighbourDis1 = line_point_distance(
+                               closest,
+                               std::make_pair(
+                                   e.first, neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first
+                               )
+                           );
+    double neighbourDis2 = line_point_distance(
+                               closest,
+                               std::make_pair(
+                                   e.second, neighbours[e.second].first == e.first ? neighbours[e.second].second : neighbours[e.second].first
+                               )
+                           );
     if (closestDis < neighbourDis1 && closestDis < neighbourDis2)
         return closest;
     return std::make_pair(INF, INF);
 }
 
-
+// May be useful
 // bool is_close(double val1, double val2)
 // {
 //     if (int(val1 * 1000) == int(val2 * 1000))

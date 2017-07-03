@@ -7,12 +7,12 @@
 #include <set>
 #include <vector>
 
-#include "include/common.h"
-#include "include/constants.h"
-#include "include/utils.h"
+#include "common.h"
+#include "constants.h"
+#include "utils.h"
 
 
-PointVector getConvexHull(PointVector& mainip)
+PointVector get_convex_hull(PointVector& mainip)
 {
     PointVector ip = PointVector(mainip);
     PointVector::iterator lowerMostItr = std::min_element(
@@ -34,10 +34,10 @@ PointVector getConvexHull(PointVector& mainip)
     return hullStack;
 }
 
-std::vector<Edge> getConcaveHull(PointVector& ip, double N = INF)
+std::vector<Edge> get_concave_hull(PointVector& ip, double N = INF)
 {
     PointVector ipCopy = PointVector(ip);
-    PointVector convexHull = getConvexHull(ipCopy);
+    PointVector convexHull = get_convex_hull(ipCopy);
     std::map<Point, std::pair<Point, Point>> neighbours;
     std::list<Edge> edges;
     for (size_t i = 0; i < convexHull.size(); i++)
