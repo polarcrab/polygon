@@ -1,3 +1,30 @@
+// -----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----
+//            . _..::__:  ,-"-"._        |7       ,     _,.__
+//    _.___ _ _<_>`!(._`.`-.    /         _._     `_ ,_/  '  '-._.---.-.__
+// >.{     " " `-==,',._\{  \  / {)      / _ ">_,-' `                mt-2_
+//   \_.:--.       `._ )`^-. "'       , [_/(                       __,/-'
+//  '"'     \         "    _L        oD_,--'                )     /. (|
+//           |           ,'          _)_.\\._<> 6              _,' /  '
+//           `.         /           [_/_'` `"(                <'}  )
+//            \\    .-. )           /   `-'"..' `:.#          _)  '
+//     `        \  (  `(           /         `:\  > \  ,-^.  /' '
+//               `._,   ""         |           \`'   \|   ?_)  {\
+//                  `=.---.        `._._       ,'     "`  |' ,- '.
+//                    |    `-._         |     /          `:`<_|h--._
+//                    (        >        .     | ,          `=.__.`-'\
+//                     `.     /         |     |{|              ,-.,\     .
+//                      |   ,'           \   / `'            ,"     \
+//                      |  /              |_'                |  __  /
+//                      | |                                  '-'  `-'   \.
+//                      |/                                         "    /
+//                      \.                                             '
+
+//                       ,/            ______._.--._ _..---.---------._
+//      ,-----"-..?----_/ )      __,-'"             "                  (
+// -.._(                  `-----'                                       `-
+// -----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----
+// Map (C) 1998 Matthew Thomas. Freely usable if this line is included. <-
+
 #include <iostream>
 #include <vector>
 #include <set>
@@ -8,7 +35,7 @@
 
 #include "include/common.h"
 #include "include/constants.h"
-#include "include/convexhull.h"
+#include "include/hull.h"
 #include "include/utils.h"
 
 boost::python::list concave_hull(boost::python::list ip, boost::python::object tweak)
@@ -60,17 +87,6 @@ boost::python::list convex_hull(boost::python::list ip)
     }
     return result;
 }
-
-// main()
-// {
-//     // Point p1 = std::make_pair(1, 1);
-//     // Point p2 = std::make_pair(0, 0);
-//     // Point p3 = std::make_pair(2, 2);
-//     // std::cout << calAngleWithXAxis(p2, p3) << std::endl;
-//     std::cout << inRange(0, 0, 1, 0, 0.5, 1) << std::endl;
-//     std::cout << inRange(0, 0, 2, 0, -1, 1) << std::endl;
-//     std::cout << inRange(0, 0, -1, 0, 0.5, 1) << std::endl;
-// }
 
 BOOST_PYTHON_MODULE(libcavehull)
 {

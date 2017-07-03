@@ -7,13 +7,13 @@
 #include "include/constants.h"
 #include "include/utils.h"
 
-Line getLine(const Point& p1, const Point& p2)
+Line get_line(const Point& p1, const Point& p2)
 {
-    double slope = calSlope(p1, p2);
+    double slope = cal_slope(p1, p2);
     return std::make_pair(slope, p1.second - p1.first * slope);
 }
 
-bool getSign(Line line, Point p)
+bool get_sign(Line line, Point p)
 {
     double val = p.second - line.first * p.first - line.second;
     if (val < 0)
@@ -21,34 +21,34 @@ bool getSign(Line line, Point p)
     return true;
 }
 
-bool checkSigns(Point p1, Point p2, Point q1, Point q2)
+bool check_signs(Point p1, Point p2, Point q1, Point q2)
 {
     /*
     Will return true if lines intersect
     */
-    Line line1 = getLine(p1, p2);
-    Line line2 = getLine(q1, q2);
-    bool s1 = getSign(line1, q1);
-    bool s2 = getSign(line1, q2);
-    bool s3 = getSign(line2, p1);
-    bool s4 = getSign(line2, p2);
+    Line line1 = get_line(p1, p2);
+    Line line2 = get_line(q1, q2);
+    bool s1 = get_sign(line1, q1);
+    bool s2 = get_sign(line1, q2);
+    bool s3 = get_sign(line2, p1);
+    bool s4 = get_sign(line2, p2);
     if (s1 != s2 && s3 != s4)
         return true;
     return false;
 }
 
-bool checkIntersections(std::list<Edge> edges, Edge e1, std::map<Point, std::pair<Point, Point>> neighbours)
+bool check_intersections(std::list<Edge> edges, Edge e1)
 {
     for (std::list<Edge>::iterator itr = edges.begin(); itr != edges.end(); itr++)
     {
         if (*itr == e1 || ((*itr).first == e1.first || (*itr).first == e1.second || (*itr).second == e1.first || (*itr).second == e1.second))
             continue;
-        if (checkSigns((*itr).first, (*itr).second, e1.first, e1.second))
+        if (check_signs((*itr).first, (*itr).second, e1.first, e1.second))
             return true;
     }
     return false;
 }
-bool pointComparator(const Point & a, const Point & b)
+bool point_comparator(const Point & a, const Point & b)
 {
     if (a.second > b.second)
         return false;
@@ -57,7 +57,7 @@ bool pointComparator(const Point & a, const Point & b)
     return true;
 }
 
-double calSlope(const Point &a, const Point &b)
+double cal_slope(const Point &a, const Point &b)
 {
     double x1 = a.first, y1 = a.second;
     double x2 = b.first, y2 = b.second;
@@ -69,7 +69,7 @@ double calSlope(const Point &a, const Point &b)
     return slope;
 }
 
-double calAngleWithXAxis(const Point &a, const Point &b)
+double cal_angle_with_X_axis(const Point &a, const Point &b)
 {
     double x1 = a.first, y1 = a.second;
     double x2 = b.first, y2 = b.second;
@@ -78,14 +78,14 @@ double calAngleWithXAxis(const Point &a, const Point &b)
     return angle >= 0 ? angle : angle + 2 * M_PIl;
 }
 
-bool isClose(double val1, double val2)
+bool is_close(double val1, double val2)
 {
     if (int(val1 * 1000) == int(val2 * 1000))
         return true;
     return false;
 }
 
-double calLength(Edge edge)
+double cal_length(Edge edge)
 {
     Point p1 = edge.first;
     Point p2 = edge.second;
@@ -94,16 +94,16 @@ double calLength(Edge edge)
     return sqrt(x1_x2 * x1_x2 + y1_y2 * y1_y2);
 }
 
-double calDecisionLength(Point &p, Edge &e)
+double cal_decision_length(Point &p, Edge &e)
 {
 
     return std::min(
-               calLength(std::make_pair(p, e.first)),
-               calLength(std::make_pair(p, e.second))
+               cal_length(std::make_pair(p, e.first)),
+               cal_length(std::make_pair(p, e.second))
            );
 }
 
-bool inRange(double x1, double y1, double x2, double y2,
+bool in_range(double x1, double y1, double x2, double y2,
              double x0, double y0)
 {
     double dx = x2 - x1;
@@ -112,20 +112,20 @@ bool inRange(double x1, double y1, double x2, double y2,
     return 0 <= innerProduct && innerProduct <= dx * dx + dy * dy;
 }
 
-double linePointDistance(Point &p, Edge e)
+double line_point_distance(Point &p, Edge e)
 {
     Point p1 = e.first;
     Point p2 = e.second;
     double x0 = p.first, y0 = p.second;
     double x1 = p1.first, y1 = p1.second;
     double x2 = p2.first, y2 = p2.second;
-    if (inRange(x1, y1, x2, y2, x0, y0))
+    if (in_range(x1, y1, x2, y2, x0, y0))
         return  abs((y2 - y1) * x0 - (x2 - x1) * y0 + x2 * y1 - y2 * x1) / sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
     return INF;
 }
 
-Point closestPoint(Edge &e, PointVector& ip,
-                   std::map<Point, std::pair<Point, Point>> neighbours)
+Point closest_point(Edge &e, PointVector& ip,
+                   std::map<Point, std::pair<Point, Point>> &neighbours)
 {
     Point closest = std::make_pair(INF, INF);
     double closestDis = INF;
@@ -133,7 +133,7 @@ Point closestPoint(Edge &e, PointVector& ip,
     {
         if (neighbours.find(ip[i]) == neighbours.end())
         {
-            double dis = linePointDistance(ip[i], e);
+            double dis = line_point_distance(ip[i], e);
             if (dis < closestDis)
             {
                 closest = ip[i];
@@ -141,14 +141,21 @@ Point closestPoint(Edge &e, PointVector& ip,
             }
         }
     }
-    double neighbourDis1 = linePointDistance(closest, std::make_pair(e.first, neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first));
-    double neighbourDis2 = linePointDistance(closest, std::make_pair(e.second, neighbours[e.second].first == e.first ? neighbours[e.second].second : neighbours[e.second].first));
+    double neighbourDis1 = line_point_distance(closest, std::make_pair(e.first, neighbours[e.first].first == e.second ? neighbours[e.first].second : neighbours[e.first].first));
+    double neighbourDis2 = line_point_distance(closest, std::make_pair(e.second, neighbours[e.second].first == e.first ? neighbours[e.second].second : neighbours[e.second].first));
     if (closestDis < neighbourDis1 && closestDis < neighbourDis2)
         return closest;
     return std::make_pair(INF, INF);
 }
 
-// double calAngle(const Point& p1, const Point& p2, const Point& p3)
+
+// bool is_close(double val1, double val2)
+// {
+//     if (int(val1 * 1000) == int(val2 * 1000))
+//         return true;
+//     return false;
+// }
+// double cal_angle_2(const Point& p1, const Point& p2, const Point& p3)
 // {
 //     DirVector v1 = std::make_pair(p3.first - p2.first, p3.second - p2.second);
 //     DirVector v2 = std::make_pair(p1.first - p2.first, p1.second - p2.second);
@@ -163,14 +170,14 @@ Point closestPoint(Edge &e, PointVector& ip,
 //     double cos1 = cos(angle1);
 //     double res;
 //     std::cout<<angle1<<" "<<angle2<<std::endl;
-//     if (isClose(cos1, cosTheta))
+//     if (is_close(cos1, cosTheta))
 //         res = angle2;
 //     else
 //         res = angle1;
 //     return res > 0 ? res : 2 * M_PIl + res;
 // }
 
-double calAngle(const Point& p1, const Point& p2, const Point& p3)
+double cal_angle(const Point& p1, const Point& p2, const Point& p3)
 {
     /*
     * Calculates to angle anti-clockwise
@@ -184,7 +191,7 @@ double calAngle(const Point& p1, const Point& p2, const Point& p3)
     return angle >= 0 ? angle : angle + 2 * M_PIl;
 }
 
-double calDis(const Point& p1, const Point& p2)
+double cal_dis(const Point& p1, const Point& p2)
 {
     double x1_x2 = p1.first - p2.first;
     double y1_y2 = p1.second - p2.second;
@@ -197,13 +204,7 @@ AngleSort::AngleSort(const Point &refPoint)
 }
 bool AngleSort::operator()(const Point &a, const Point &b)
 {
-    double angle_ar = calAngleWithXAxis(a, refPoint);
-    double angle_br = calAngleWithXAxis(b, refPoint);
-    // if (isClose(angle_ar, angle_br))
-    // {
-    //     if (calDis(refPoint, a) > calDis(refPoint, b))
-    //         return false;
-    //     return true;
-    // }
+    double angle_ar = cal_angle_with_X_axis(a, refPoint);
+    double angle_br = cal_angle_with_X_axis(b, refPoint);
     return angle_ar < angle_br;
 }

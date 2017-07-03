@@ -5,20 +5,20 @@
 
 #include "common.h"
 
-bool pointComparator(const Point & a, const Point & b);
-double calSlope(const Point &a, const Point &b);
-bool isClose(double val1, double val2);
-double calLength(Edge edge);
-double calDecisionLength(Point &p, Edge &e);
-Point closestPoint(Edge &e, PointVector& ip,
+bool point_comparator(const Point & a, const Point & b);
+double cal_slope(const Point &a, const Point &b);
+bool is_close(double val1, double val2);
+double cal_length(Edge edge);
+double cal_decision_length(Point &p, Edge &e);
+Point closest_point(Edge &e, PointVector& ip,
                    std::map<Point,
-                   std::pair<Point, Point>> neighbours);
-double calAngle(const Point& p1, const Point& p2, const Point& p3);
-double calAngleWithXAxis(const Point &a, const Point &b);
-double calDis(const Point& p1, const Point& p2);
-bool inRange(double x1, double y1, double x2, double y2,
+                   std::pair<Point, Point>> &neighbours);
+double cal_angle(const Point& p1, const Point& p2, const Point& p3);
+double cal_angle_with_X_axis(const Point &a, const Point &b);
+double cal_dis(const Point& p1, const Point& p2);
+bool in_range(double x1, double y1, double x2, double y2,
              double x0, double y0);
-bool checkIntersections(std::list<Edge> edges, Edge e1, std::map<Point, std::pair<Point, Point>> neighbours);
+bool check_intersections(std::list<Edge> edges, Edge e1);
 class AngleSort
 {
 	Point refPoint;

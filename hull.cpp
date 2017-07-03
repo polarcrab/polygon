@@ -11,24 +11,14 @@
 #include "include/constants.h"
 #include "include/utils.h"
 
-void printStuff(const Point& p1, const Point& p2, const Point& p3)
-{
-    std::cout << p1.first << " " << p1.second << std::endl;
-    std::cout << p2.first << " " << p2.second << std::endl;
-    std::cout << p3.first << " " << p3.second << std::endl;
-    std::cout << calAngle(p1, p2, p3) << std::endl;
-    std::cout << std::endl;
-}
-
 
 PointVector getConvexHull(PointVector& mainip)
 {
     PointVector ip = PointVector(mainip);
     PointVector::iterator lowerMostItr = std::min_element(
-            ip.begin(), ip.end(), pointComparator);
+            ip.begin(), ip.end(), point_comparator);
     Point lowerMostPoint = *lowerMostItr;
     ip.erase(lowerMostItr);
-    // std::cout << M_PIl << std::endl;
     sort(ip.begin(), ip.end(), AngleSort(lowerMostPoint));
     PointVector hullStack;
     hullStack.push_back(lowerMostPoint);
@@ -36,7 +26,8 @@ PointVector getConvexHull(PointVector& mainip)
     hullStack.push_back(ip[1]);
     for (int i = 2; i < int(ip.size()); i++)
     {
-        while (calAngle(ip[i], hullStack.end()[-1], hullStack.end()[-2]) >= M_PIl)
+        while (cal_angle(ip[i], hullStack.end()[-1],
+                         hullStack.end()[-2]) >= M_PIl)
             hullStack.pop_back();
         hullStack.push_back(ip[i]);
     }
@@ -47,12 +38,12 @@ std::vector<Edge> getConcaveHull(PointVector& ip, double N = INF)
 {
     PointVector ipCopy = PointVector(ip);
     PointVector convexHull = getConvexHull(ipCopy);
-    std::vector<Edge> answer;
     std::map<Point, std::pair<Point, Point>> neighbours;
     std::list<Edge> edges;
-    for (int i = 0; i < int(convexHull.size()); i++)
+    for (size_t i = 0; i < convexHull.size(); i++)
     {
         int leftIndex = (int(i) - 1) % convexHull.size();
+        // Using size_t, as size_t can never be negative, so converting it to int
         int rightIndex = (i + 1) % convexHull.size();
         neighbours[convexHull[i]] = std::make_pair(convexHull[leftIndex],
                                     convexHull[rightIndex]);
@@ -61,19 +52,26 @@ std::vector<Edge> getConcaveHull(PointVector& ip, double N = INF)
     for (std::list<Edge>::iterator itr = edges.begin(); itr != edges.end();)
     {
         Edge currentEdge = *itr;
-        Point closest = closestPoint(currentEdge, ip, neighbours);
+        Point closest = closest_point(currentEdge, ip, neighbours);
         if (closest.first == INF)
         {
             itr++;
             continue;
         }
-        double lengthOfEdge = calLength(currentEdge);
-        double decisionDistance = calDecisionLength(closest, currentEdge);
+        double lengthOfEdge = cal_length(currentEdge);
+        double decisionDistance = cal_decision_length(closest, currentEdge);
         if (lengthOfEdge / decisionDistance > N)
         {
             edges.push_back(std::make_pair(currentEdge.first, closest));
             edges.push_back(std::make_pair(currentEdge.second, closest));
-            if (checkIntersections(edges, std::make_pair(currentEdge.first, closest), neighbours) || checkIntersections(edges, std::make_pair(currentEdge.second, closest), neighbours))
+            if (check_intersections(edges,
+                                    std::make_pair(
+                                        currentEdge.first,
+                                        closest)) ||
+                    check_intersections(edges,
+                                        std::make_pair(
+                                            currentEdge.second,
+                                            closest)))
             {
                 edges.pop_back();
                 edges.pop_back();
@@ -93,9 +91,9 @@ std::vector<Edge> getConcaveHull(PointVector& ip, double N = INF)
         else
             itr++;
     }
-    for (std::list<Edge>::iterator itr = edges.begin(); itr != edges.end(); itr++)
-    {
-        answer.push_back(*itr);
-    }
+    std::vector<Edge> answer{
+        std::make_move_iterator(std::begin(edges)),
+        std::make_move_iterator(std::end(edges))
+    };
     return answer;
 }
