@@ -17,4 +17,6 @@ To run the example use the following code, after building
 ```
 python3 example/example.py
 ```
+In the following example, the concave as well as convex hull can be seen.
+The image has been drawn using matplotlib 
 ![Example Image](/example/example.jpg?raw=true "Example Image")
