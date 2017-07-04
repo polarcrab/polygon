@@ -1,3 +1,11 @@
+/**
+    Header file from hull.cpp
+
+    @author Harmandeep Singh
+    @email harmandeep DOT singh1 AT delhivery DOT com
+    @date 3 July 2017
+*/
+
 #ifndef HULL_H
 #define HULL_H
 

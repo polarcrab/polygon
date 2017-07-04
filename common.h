@@ -1,3 +1,11 @@
+/**
+    Header file containing all the user defined types
+
+    @author Harmandeep Singh
+    @email harmandeep DOT singh1 AT delhivery DOT com
+    @date 3 July 2017
+*/
+
 #ifndef COMMON_H
 #define COMMON_H
 
