@@ -10,3 +10,10 @@ sudo apt-get install libboost-python-dev
 ```
 make
 ```
+### Example
+
+An example code for python has been added, which demonstrates how to build concave as well as convex hull.
+To run the example use the following code, after building
+```
+python3 example/example.py
+```
