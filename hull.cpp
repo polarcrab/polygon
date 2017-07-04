@@ -88,8 +88,8 @@ std::vector<Edge> get_concave_hull(PointVector& ip, double N = INF)
                                             convexHull[rightIndex]);
         edges.push_back(std::make_pair(convexHull[i], convexHull[rightIndex]));
     }
-
-    for (std::list<Edge>::iterator itr = edges.begin(); itr != edges.end();)
+    std::list<Edge>::iterator itr = edges.begin();
+    while (itr != edges.end())
     {
         /* Iterating over each edge and checking
            if it can be broken into two edges */
