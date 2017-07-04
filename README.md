@@ -17,3 +17,4 @@ To run the example use the following code, after building
 ```
 python3 example/example.py
 ```
+![Example Image](/example/example.jpg?raw=true "Example Image")
