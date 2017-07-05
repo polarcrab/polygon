@@ -25,6 +25,7 @@ double cal_angle(const Point& p1, const Point& p2, const Point& p3);
 double cal_angle_with_X_axis(const Point &a, const Point &b);
 double cal_dis(const Point& p1, const Point& p2);
 bool in_range(Point &p1, Point &p2, Point &p0);
+double line_point_distance(Point &p, Edge e);
 bool check_intersections(std::list<Edge> edges, Edge e1);
 class AngleSort
 {
